@@ -48,6 +48,7 @@ test("async usage", async () => {
   const execute = create(
     Object.assign({}, resolvers, {
       Tank: {
+        ...resolvers.Tank,
         asyncFish: (obj, args) => {
           return Promise.resolve({ fields: { redFish: "async " + args[0] } });
         }
@@ -75,6 +76,9 @@ test("async usage", async () => {
   });
 
   expect(result).toEqual({
+    asyncFish: {
+      redFish: "async eats"
+    },
     oneFish: "that was really good fish food",
     twoFish: {
       redFish: "that was double good food"
