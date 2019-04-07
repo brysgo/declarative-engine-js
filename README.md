@@ -1,22 +1,24 @@
 # Declarative Engine
 
+[![CircleCI][build-badge]][build]
+[![npm package][npm-badge]][npm]
+[![Greenkeeper badge][greenkeeper-badge]][greenkeeper]
+
+> simple way to turn imperative code declarative
+
+## Install
+
+```bash
+{yarn, npm} add merge-resolver
+```
+
 It is no secret that I am a huge fan of GraphQL. But I tend to get lots of push back when suggesting it as a solution to a problem. The pushback is always related to not wanting to learn a new query language and type system. Another argument is for not wanting to bring in huge libraries.
 
 This project is an attempt at putting those arguments to rest by extracting the declarative -> imperative pattern that we all love so much and keeping it dead simple.
 
 # Usage
 
-```bash
-$ npm install --save declarative-engine
-```
-
-or
-
-```bash
-$ yarn add declarative-engine
-```
-
-Then you have to create a declarative engine like this:
+Create a declarative engine like this:
 
 ```js
 import createEngine from "declarative-engine";
@@ -71,3 +73,13 @@ And it should Print:
    }
 }
 ```
+
+[build-badge]: https://circleci.com/gh/brysgo/declarative-engine.svg?style=shield
+[build]: https://circleci.com/gh/brysgo/declarative-engine
+
+[npm-badge]: https://img.shields.io/npm/v/declarative-engine.png?style=flat-square
+[npm]: https://www.npmjs.org/package/declarative-engine
+
+
+[greenkeeper-badge]: https://badges.greenkeeper.io/brysgo/declarative-engine.svg
+[greenkeeper]: https://greenkeeper.io/
