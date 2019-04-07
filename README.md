@@ -74,12 +74,12 @@ And it should Print:
 }
 ```
 
-[build-badge]: https://circleci.com/gh/brysgo/declarative-engine.svg?style=shield
-[build]: https://circleci.com/gh/brysgo/declarative-engine
+[build-badge]: https://circleci.com/gh/brysgo/declarative-engine-js.svg?style=shield
+[build]: https://circleci.com/gh/brysgo/declarative-engine-js
 
 [npm-badge]: https://img.shields.io/npm/v/declarative-engine.png?style=flat-square
 [npm]: https://www.npmjs.org/package/declarative-engine
 
 
-[greenkeeper-badge]: https://badges.greenkeeper.io/brysgo/declarative-engine.svg
+[greenkeeper-badge]: https://badges.greenkeeper.io/brysgo/declarative-engine-js.svg
 [greenkeeper]: https://greenkeeper.io/
