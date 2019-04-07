@@ -72,3 +72,45 @@ test("async usage", async () => {
     }
   });
 });
+
+test("readme example", () => {
+  const executeDeclarativeEngine = create({
+    Ball: {
+      volume(obj) {
+        return (4 / 3) * Math.PI * obj.radius ** 3;
+      }
+    },
+    Basket: {
+      height(obj) {
+        return `${obj.height} ft`;
+      }
+    },
+    typeFromObj: obj => obj.type
+  });
+
+  const result = executeDeclarativeEngine({
+    type: "Court",
+    ball: {
+      type: "Ball",
+      radius: 10,
+      volume: true
+    },
+    basket: {
+      type: "Basket",
+      height: 12
+    }
+  });
+
+  expect(result).toEqual({
+    type: "Court",
+    ball: {
+      type: "Ball",
+      radius: 10,
+      volume: 4188.790204786391
+    },
+    basket: {
+      type: "Basket",
+      height: "12 ft"
+    }
+  });
+});

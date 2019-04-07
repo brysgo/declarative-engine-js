@@ -1,12 +1,13 @@
-const defaultResolver = obj => obj;
+const defaultResolver = cur => obj => obj[cur];
 
 const isPromise = subject => typeof subject.then == "function";
 
 export default resolvers => {
   const execute = obj => {
     let type = resolvers.typeFromObj(obj);
-    if (!type) {
-      return obj;
+    if (!type || !resolvers[type]) {
+      if (typeof obj === "string" || typeof obj === "number") return obj;
+      if (Array.isArray(obj)) return obj.map(execute);
     }
 
     if (typeof resolvers[type] === "function") {
@@ -16,7 +17,7 @@ export default resolvers => {
 
     const promises = [];
     const result = Object.keys(obj).reduce((acc, cur) => {
-      const resolver = (resolvers[type] || {})[cur] || defaultResolver;
+      const resolver = (resolvers[type] || {})[cur] || defaultResolver(cur);
       const resolverResult = resolver(obj);
       if (isPromise(resolverResult)) {
         promises.push(resolverResult);
