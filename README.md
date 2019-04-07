@@ -6,15 +6,15 @@
 
 > simple way to turn imperative code declarative
 
-## Install
-
-```bash
-{yarn, npm} add merge-resolver
-```
-
 It is no secret that I am a huge fan of GraphQL. But I tend to get lots of push back when suggesting it as a solution to a problem. The pushback is always related to not wanting to learn a new query language and type system. Another argument is for not wanting to bring in huge libraries.
 
 This project is an attempt at putting those arguments to rest by extracting the declarative -> imperative pattern that we all love so much and keeping it dead simple.
+
+## Install
+
+```bash
+{yarn, npm} add declarative-engine
+```
 
 # Usage
 
