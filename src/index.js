@@ -2,25 +2,27 @@ const defaultResolver = obj => obj;
 
 const isPromise = subject => typeof subject.then == "function";
 
-export const create = resolvers => {
+export default resolvers => {
   const execute = obj => {
-    let type = resolvers.typeFromObj(obj.fields);
+    let type = resolvers.typeFromObj(obj);
     if (!type) {
       return obj;
     }
 
     if (typeof resolvers[type] === "function") {
       // short circuit field level resolution if a function if provided for the type
-      return resolvers[type](obj.fields, obj.arguments);
+      return resolvers[type](obj);
     }
 
     const promises = [];
-    const result = Object.keys(obj.fields).reduce((acc, cur) => {
+    const result = Object.keys(obj).reduce((acc, cur) => {
       const resolver = (resolvers[type] || {})[cur] || defaultResolver;
-      acc[cur] = execute(resolver(obj.fields, obj.fields[cur].arguments));
-      if (isPromise(acc[cur])) {
-        promises.push(acc[cur]);
-        acc[cur].then((res) => acc[cur] = res.fields);
+      const resolverResult = resolver(obj);
+      if (isPromise(resolverResult)) {
+        promises.push(resolverResult);
+        resolverResult.then(res => (acc[cur] = execute(res)));
+      } else {
+        acc[cur] = execute(resolverResult);
       }
       return acc;
     }, {});

@@ -1,12 +1,14 @@
-import { create } from "./";
+import create from "./";
 
 const resolvers = {
   Tank: {
-    oneFish: (obj, args) => {
-      return `that was really good ${args[0]}`;
+    oneFish: obj => {
+      return `that was really good ${obj.oneFish}`;
     },
-    twoFish: (obj, args) => {
-      return { fields: { redFish: args[0] } };
+    twoFish: obj => {
+      return {
+        redFish: obj.twoFish.arguments[0] + obj.twoFish.redFish
+      };
     }
   },
   Fish: {
@@ -23,23 +25,17 @@ const resolvers = {
 test("basic usage", () => {
   const execute = create(resolvers);
   const result = execute({
-    fields: {
-      oneFish: {
-        arguments: ["fish food"]
-      },
-      twoFish: {
-        arguments: ["food"],
-        fields: {
-          redFish: {}
-        }
-      }
+    oneFish: "fish food",
+    twoFish: {
+      arguments: ["food"],
+      redFish: "!"
     }
   });
 
   expect(result).toEqual({
     oneFish: "that was really good fish food",
     twoFish: {
-      redFish: "that was double good food"
+      redFish: "that was double good food!"
     }
   });
 });
@@ -49,39 +45,30 @@ test("async usage", async () => {
     Object.assign({}, resolvers, {
       Tank: {
         ...resolvers.Tank,
-        asyncFish: (obj, args) => {
-          return Promise.resolve({ fields: { redFish: "async " + args[0] } });
+        asyncFish: obj => {
+          return Promise.resolve({ redFish: "async " + obj.asyncFish.redFish });
         }
       }
     })
   );
   const result = await execute({
-    fields: {
-      oneFish: {
-        arguments: ["fish food"]
-      },
-      twoFish: {
-        arguments: ["food"],
-        fields: {
-          redFish: {}
-        }
-      },
-      asyncFish: {
-        arguments: ["eats"],
-        fields: {
-          redFish: {}
-        }
-      }
+    oneFish: "fish food",
+    twoFish: {
+      arguments: ["food"],
+      redFish: " :-)"
+    },
+    asyncFish: {
+      redFish: "eats!!"
     }
   });
 
   expect(result).toEqual({
     asyncFish: {
-      redFish: "async eats"
+      redFish: "that was double good async eats!!"
     },
     oneFish: "that was really good fish food",
     twoFish: {
-      redFish: "that was double good food"
+      redFish: "that was double good food :-)"
     }
   });
 });
