@@ -22,7 +22,7 @@
     "@babel/core": "^7.4.5",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
-    "@babel/runtime": "^7.4.3",
+    "@babel/runtime": "^7.4.5",
     "@swc/cli": "^0.1.18",
     "@swc/core": "^1.0.39",
     "jest": "^24.7.1",
