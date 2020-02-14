@@ -1,7 +1,6 @@
 const defaultResolver = cur => obj => obj[cur];
 
-const isPromise = subject =>
-  !!subject && typeof subject === "object" && typeof subject.then == "function";
+const isPromise = subject => !!subject && typeof subject.then == "function";
 
 export default resolvers => {
   const execute = obj => {
