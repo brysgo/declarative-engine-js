@@ -3,8 +3,9 @@ const defaultResolver = cur => obj => obj[cur];
 const isPromise = subject => !!subject && typeof subject.then == "function";
 
 export default resolvers => {
-  const execute = obj => {
-    let type = resolvers.typeFromObj(obj);
+  const execute = (obj, path) => {
+    path = path || [];
+    let type = resolvers.typeFromObj(obj, path);
     if (!type || !resolvers[type]) {
       if (
         typeof obj === "string" ||
@@ -14,7 +15,8 @@ export default resolvers => {
         obj === null
       )
         return obj;
-      if (Array.isArray(obj)) return obj.map(execute);
+      if (Array.isArray(obj))
+        return obj.map((x, i) => execute(x, [...path, i]));
     }
 
     if (typeof resolvers[type] === "function") {
@@ -28,9 +30,9 @@ export default resolvers => {
       const resolverResult = resolver(obj);
       if (isPromise(resolverResult)) {
         promises.push(resolverResult);
-        resolverResult.then(res => (acc[cur] = execute(res)));
+        resolverResult.then(res => (acc[cur] = execute(res, [...path, cur])));
       } else {
-        acc[cur] = execute(resolverResult);
+        acc[cur] = execute(resolverResult, [...path, cur]);
       }
       return acc;
     }, {});

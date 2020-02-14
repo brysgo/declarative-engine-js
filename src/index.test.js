@@ -17,9 +17,10 @@ const resolvers = {
       return `that was double good ${obj.redFish}`;
     }
   },
-  typeFromObj: obj => {
+  typeFromObj: (obj, path) => {
     if (obj && obj.oneFish) return "Tank";
     if (obj && obj.redFish) return "Fish";
+    if (path.length > 0 && path[path.length - 1] === "pathFish") return "Fish";
   }
 };
 
@@ -37,6 +38,33 @@ test("basic usage", () => {
     oneFish: "that was really good fish food",
     twoFish: {
       redFish: "that was double good food!"
+    }
+  });
+});
+
+test("using path to identify type", () => {
+  const execute = create(
+    Object.assign({}, resolvers, {
+      Fish: {
+        ...resolvers.Fish,
+        blueFish: obj => {
+          return `yum yum ${obj.blueFish.arguments} ${obj.blueFish.redFish}`;
+        }
+      }
+    })
+  );
+
+  const result = execute({
+    pathFish: {
+      blueFish: {
+        arguments: ["food"],
+        redFish: "!"
+      }
+    }
+  });
+  expect(result).toEqual({
+    pathFish: {
+      blueFish: "yum yum food !"
     }
   });
 });
