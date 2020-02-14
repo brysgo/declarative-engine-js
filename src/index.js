@@ -3,9 +3,10 @@ const defaultResolver = cur => obj => obj[cur];
 const isPromise = subject => !!subject && typeof subject.then == "function";
 
 export default resolvers => {
-  const execute = (obj, path) => {
+  const execute = (obj, path, ancestorTypes) => {
     path = path || [];
-    let type = resolvers.typeFromObj(obj, path);
+    ancestorTypes = ancestorTypes || [];
+    let type = resolvers.typeFromObj(obj, path, ancestorTypes);
     if (!type || !resolvers[type]) {
       if (
         typeof obj === "string" ||
@@ -16,7 +17,9 @@ export default resolvers => {
       )
         return obj;
       if (Array.isArray(obj))
-        return obj.map((x, i) => execute(x, [...path, i]));
+        return obj.map((x, i) =>
+          execute(x, [...path, i], [...ancestorTypes, "[]"])
+        );
     }
 
     if (typeof resolvers[type] === "function") {
@@ -28,11 +31,15 @@ export default resolvers => {
     const result = Object.keys(obj).reduce((acc, cur) => {
       const resolver = (resolvers[type] || {})[cur] || defaultResolver(cur);
       const resolverResult = resolver(obj);
+      const newAncestorTypes = [...ancestorTypes, type];
+      const newPath = [...path, cur];
       if (isPromise(resolverResult)) {
         promises.push(resolverResult);
-        resolverResult.then(res => (acc[cur] = execute(res, [...path, cur])));
+        resolverResult.then(
+          res => (acc[cur] = execute(res, newPath, newAncestorTypes))
+        );
       } else {
-        acc[cur] = execute(resolverResult, [...path, cur]);
+        acc[cur] = execute(resolverResult, newPath, newAncestorTypes);
       }
       return acc;
     }, {});
