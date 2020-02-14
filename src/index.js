@@ -1,12 +1,20 @@
 const defaultResolver = cur => obj => obj[cur];
 
-const isPromise = subject => typeof subject.then == "function";
+const isPromise = subject =>
+  !!subject && typeof subject === "object" && typeof subject.then == "function";
 
 export default resolvers => {
   const execute = obj => {
     let type = resolvers.typeFromObj(obj);
     if (!type || !resolvers[type]) {
-      if (typeof obj === "string" || typeof obj === "number") return obj;
+      if (
+        typeof obj === "string" ||
+        typeof obj === "number" ||
+        typeof obj === "boolean" ||
+        typeof obj === "undefined" ||
+        obj === null
+      )
+        return obj;
       if (Array.isArray(obj)) return obj.map(execute);
     }
 

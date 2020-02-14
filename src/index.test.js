@@ -12,6 +12,7 @@ const resolvers = {
     }
   },
   Fish: {
+    arguments: () => false,
     redFish: obj => {
       return `that was double good ${obj.redFish}`;
     }
@@ -36,6 +37,38 @@ test("basic usage", () => {
     oneFish: "that was really good fish food",
     twoFish: {
       redFish: "that was double good food!"
+    }
+  });
+});
+
+test("boolean usage", () => {
+  const execute = create(
+    Object.assign({}, resolvers, {
+      Tank: {},
+      Fish: {
+        ...resolvers.Fish,
+        booleanFish: ({ booleanFish }) => {
+          return booleanFish;
+        }
+      }
+    })
+  );
+
+  const result = execute({
+    twoFish: {
+      undefinedFish: undefined,
+      nullFish: null,
+      booleanFish: true,
+      falseFish: false
+    }
+  });
+
+  expect(result).toEqual({
+    twoFish: {
+      undefinedFish: undefined,
+      nullFish: null,
+      booleanFish: true,
+      falseFish: false
     }
   });
 });
