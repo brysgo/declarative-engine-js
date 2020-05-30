@@ -20,7 +20,7 @@
   "homepage": "https://github.com/brysgo/declarative-engine-js#readme",
   "devDependencies": {
     "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.4.3",
+    "@babel/core": "^7.10.2",
     "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/runtime": "^7.4.3",
