@@ -38,7 +38,7 @@ jobs:
           tag-prefix: ""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2-beta
         with:
           node-version: "14"
           registry-url: "https://registry.npmjs.org/"
@@ -65,6 +65,8 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
       - name: GPR Publish
         continue-on-error: true
-        run: yarn publish
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > `npm config get userconfig`
+          yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
