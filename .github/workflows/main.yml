@@ -17,7 +17,7 @@ jobs:
           node-version: "14"
       - name: Cache node_modules
         id: cache-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: 14-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
@@ -33,7 +33,13 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
-      - uses: "phips28/gh-action-bump-version@master"
+      - name: Cache package.json
+        id: cache-package-json
+        uses: actions/cache@v2
+        with:
+          path: package.json
+          key: ${{ github.sha }}-package-json
+      - uses: "phips28/gh-action-bump-version@v7.1.4"
         with:
           tag-prefix: ""
         env:
@@ -51,10 +57,16 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Cache node_modules
         id: cache-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: 14-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
+      - name: Cache package.json
+        id: cache-package-json
+        uses: actions/cache@v2
+        with:
+          path: package.json
+          key: ${{ github.sha }}-package-json
       - name: Install
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
@@ -75,6 +87,18 @@ jobs:
         with:
           node-version: "14"
           registry-url: "https://npm.pkg.github.com"
+      - name: Cache node_modules
+        id: cache-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: 14-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
+      - name: Cache package.json
+        id: cache-package-json
+        uses: actions/cache@v2
+        with:
+          path: package.json
+          key: ${{ github.sha }}-package-json
       - name: Install
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
