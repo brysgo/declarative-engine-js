@@ -54,6 +54,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: NPM Publish
+        continue-on-error: true
         run: |
           yarn publish
           rm `npm config get userconfig`
@@ -64,6 +65,7 @@ jobs:
           node-version: "14"
           registry-url: "https://npm.pkg.github.com"
       - name: GPR Publish
+        continue-on-error: true
         run: |
           yarn publish
         env:
