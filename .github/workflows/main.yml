@@ -56,7 +56,7 @@ jobs:
       - name: NPM Publish
         continue-on-error: true
         run: |
-          yarn publish
+          npm publish
           rm `npm config get userconfig`
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -67,6 +67,6 @@ jobs:
         continue-on-error: true
         run: |
           echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > `npm config get userconfig`
-          yarn publish
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
