@@ -1,8 +1,7 @@
 # Declarative Engine
 
-[![CircleCI][build-badge]][build]
+![CI](https://github.com/brysgo/declarative-engine-js/workflows/CI/badge.svg)
 [![npm package][npm-badge]][npm]
-[![Greenkeeper badge][greenkeeper-badge]][greenkeeper]
 
 > simple way to turn imperative code declarative
 
