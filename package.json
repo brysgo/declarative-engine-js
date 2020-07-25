@@ -1,6 +1,6 @@
 {
   "name": "declarative-engine",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "simple way to turn imperative code declarative",
   "main": "dist/index.js",
   "scripts": {
