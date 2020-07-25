@@ -41,7 +41,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14"
-          registry-url: https://registry.npmjs.org/
+          registry-url: "https://registry.npmjs.org/"
       - name: Cache node_modules
         id: cache-modules
         uses: actions/cache@v2
@@ -59,6 +59,10 @@ jobs:
           rm `npm config get userconfig`
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+          registry-url: "https://npm.pkg.github.com"
       - name: GPR Publish
         run: |
           yarn publish
