@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v1
         with:
           node-version: "14"
       - name: Cache node_modules
@@ -54,12 +54,13 @@ jobs:
       - name: Build
         run: yarn build
       - name: NPM Publish
-        run: yarn publish
+        run: |
+          yarn publish
+          rm `npm config get userconfig`
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: GPR Publish
         run: |
-          yarn config set registry "https://npm.pkg.github.com"
           yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
