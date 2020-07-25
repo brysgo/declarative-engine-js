@@ -87,12 +87,13 @@ jobs:
         with:
           node-version: "14"
           registry-url: "https://npm.pkg.github.com"
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: 14-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
+      - run: npm config get userconfig
+      # - name: Cache node_modules
+      #   id: cache-modules
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: node_modules
+      #     key: 14-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
       - name: Cache package.json
         id: cache-package-json
         uses: actions/cache@v2
