@@ -63,7 +63,7 @@ jobs:
       - name: NPM Publish
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish-gpr:
     name: Publish GPR
     needs: version-bump
