@@ -54,13 +54,12 @@ jobs:
       - name: Build
         run: yarn build
       - name: NPM Publish
-        run: npm publish
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - uses: actions/setup-node@v1
-        with:
-          registry-url: "https://npm.pkg.github.com"
       - name: GPR Publish
-        run: npm publish
+        run: |
+          yarn config set registry "https://npm.pkg.github.com"
+          yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
