@@ -62,11 +62,13 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: actions/setup-node@v2-beta
         with:
+          node-version: "14"
           registry-url: "https://npm.pkg.github.com"
       - name: GPR Publish
         continue-on-error: true
         run: |
           echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > `npm config get userconfig`
+          echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > `npm config get globalconfig`
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
